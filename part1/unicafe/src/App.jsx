@@ -4,7 +4,7 @@ const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
 
 const Header = ({text}) => <h1>{text}</h1>
 
-const Body = ({clicks, totals}) => {
+const Statistics = ({clicks, totals}) => {
   let good = clicks[0]
   let neutral = clicks[1]
   let bad = clicks[2]
@@ -58,7 +58,7 @@ const App = () => {
       <Button onClick={handleNeutral} text='neutral' />
       <Button onClick={handleBad} text='bad' />
       <Header text={subHeader} />
-      <Body clicks={allClicks()} totals={total}/>
+      <Statistics clicks={allClicks()} totals={total}/>
     </div>
   )
 }
