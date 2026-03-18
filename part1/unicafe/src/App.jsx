@@ -8,22 +8,27 @@ const Statistics = ({clicks, totals}) => {
   let good = clicks[0]
   let neutral = clicks[1]
   let bad = clicks[2]
-  let average = 0
-  let positive = 0
+  let average = (good - bad) / totals
+  let positive = (good / totals) * 100
   if (totals > 0) {
-    average = (good - bad) / totals
-    positive = (good / totals) * 100
+    return (
+      <p>
+        good {good} <br />
+        neutral {neutral} <br />
+        bad {bad} <br />
+        total {totals} <br />
+        average {average} <br />
+        positive {positive}
+      </p>
+    )
   }
-  return (
-    <p>
-      good {good} <br />
-      neutral {neutral} <br />
-      bad {bad} <br />
-      total {totals} <br />
-      average {average} <br />
-      positive {positive}
-    </p>
-  )
+  else {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
 }
 
 const App = () => {
