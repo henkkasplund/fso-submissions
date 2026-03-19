@@ -72,11 +72,11 @@ const App = () => {
   return (
     <div>
       <Header text={header} />
-      <Button onClick={handleGood} text='good'/>
+      <Button onClick={handleGood} text='good' />
       <Button onClick={handleNeutral} text='neutral' />
       <Button onClick={handleBad} text='bad' />
       <Header text={subHeader} />
-      <Statistics clicks={allClicks()} all={total}/>
+      <Statistics clicks={allClicks()} all={total} />
     </div>
   )
 }
