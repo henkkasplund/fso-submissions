@@ -1,8 +1,16 @@
 import { useState } from 'react'
 
-const Anecdote = ({anecdote}) => {
+const Statistics = ({stats}) => {
+  if (stats === 1) return <p>has {stats} vote</p>
+  return <p>has {stats} votes</p>
+}
+
+const Anecdote = ({anecdote, stats}) => {
   return (
-    <p>{anecdote}</p>
+    <div>
+      <p>{anecdote}</p>
+      <Statistics stats={stats} />
+    </div>
   )
 }
 
@@ -19,16 +27,24 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
+  
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
   const updateSelected = (anecdotes) => Math.floor(Math.random() * anecdotes.length)
   const handleAnecdote = () => {
     setSelected(updateSelected(anecdotes))
   }
+  const handleVote = () => {
+    const updatedVotes = [...votes]
+    updatedVotes[selected] += 1
+    console.log(selected)
+    setVotes(updatedVotes)
+  }
 
   return (
     <div>
-      <Anecdote anecdote={anecdotes[selected]} />
+      <Anecdote anecdote={anecdotes[selected]} stats={votes[selected]} />
+      <Button onClick={handleVote} name='vote' />
       <Button onClick={handleAnecdote} name='next anecdote' />
     </div>
   )
