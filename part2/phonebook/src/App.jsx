@@ -1,30 +1,5 @@
 import { useState } from 'react'
-
-const FilterContacts = ({ contacts, criteria }) => {
-  return (
-    criteria === '' ? <Contacts contacts={ contacts } /> : <Contacts contacts={contacts.filter((contact) => 
-      contact.name.toLowerCase().includes(criteria.toLowerCase()))} />
-  )
-}
-
-const Contact = ({name, number }) => {
-  return (
-    <tr>
-      <td>{ name }</td>
-      <td>{ number }</td>
-    </tr>
-  )
-}
-
-const Contacts = ({ contacts }) => {
-  return (
-    <table>
-      <tbody>
-        {contacts.map((contact) => <Contact key={ contact.id } name={ contact.name } number={ contact.number } /> )}
-      </tbody>
-    </table>
-  )
-}
+import FilterContacts from './components/FilterContacts'
 
 const App = () => {
   const [contacts, setContacts] = useState([
