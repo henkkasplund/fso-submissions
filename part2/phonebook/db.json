@@ -24,6 +24,11 @@
       "name": "Kaj Kunnas",
       "number": "020-3903849",
       "id": "CqNdSVCMF1E"
+    },
+    {
+      "name": "Teppo Numminen",
+      "number": "040-3903189",
+      "id": "PLOG-yiLOHU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

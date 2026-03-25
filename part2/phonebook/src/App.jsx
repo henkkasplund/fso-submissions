@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import FilterContacts from './components/FilterContacts'
+import contactService from './services/persons'
 
 const App = () => {
   const [contacts, setContacts] = useState([]) 
@@ -9,13 +9,10 @@ const App = () => {
   const [searchCriteria, setSearchCriteria] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then((response) => {
-        setContacts(response.data)
-      })
-      .catch(error => {
-        alert(`Pyyntö epäonnistui: ${ error.message }`)
+    contactService
+      .getAll()
+      .then((initialContacts) => {
+        setContacts(initialContacts)
       })
   }, [])
 
@@ -34,15 +31,12 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-    axios
-      .post('http://localhost:3001/persons', contactObject)
-      .then((response) => {
-        setContacts(contacts.concat(response.data))
+    contactService
+      .add(contactObject)
+      .then((returnedContact) => {
+        setContacts(contacts.concat(returnedContact))
         setNewName('')
         setNewNumber('')
-      })
-      .catch((error) => {
-        alert(`Kohteen vieminen tietokantaan epäonnistui. ${ error.message }`)
       })
   }
 
