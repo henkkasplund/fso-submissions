@@ -1,13 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import FilterContacts from './components/FilterContacts'
 
 const App = () => {
-  const [contacts, setContacts] = useState([
-    { id: 1, name: 'Arto Hellas', number: '0403902920' }
-]) 
+  const [contacts, setContacts] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchCriteria, setSearchCriteria] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setContacts(response.data)
+      }).catch(error => {
+        alert(`Pyyntö epäonnistui: ${error.message}`)
+      })
+  }, [])
 
   const addContact = (event) => {
     event.preventDefault()
