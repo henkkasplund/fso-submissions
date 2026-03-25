@@ -11,10 +11,11 @@ const App = () => {
   useEffect(() => {
     axios
       .get('http://localhost:3001/persons')
-      .then(response => {
+      .then((response) => {
         setContacts(response.data)
-      }).catch(error => {
-        alert(`Pyyntö epäonnistui: ${error.message}`)
+      })
+      .catch(error => {
+        alert(`Pyyntö epäonnistui: ${ error.message }`)
       })
   }, [])
 
@@ -30,13 +31,19 @@ const App = () => {
       return
     }
     const contactObject = {
-      id: contacts.length +1,
       name: newName,
       number: newNumber,
     }
-    setContacts(contacts.concat(contactObject))
-    setNewName('')
-    setNewNumber('')
+    axios
+      .post('http://localhost:3001/persons', contactObject)
+      .then((response) => {
+        setContacts(contacts.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch((error) => {
+        alert(`Kohteen vieminen tietokantaan epäonnistui. ${ error.message }`)
+      })
   }
 
   return (
