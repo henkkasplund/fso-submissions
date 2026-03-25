@@ -11,11 +11,11 @@ const App = () => {
 
   const addContact = (event) => {
     event.preventDefault()
-    if (newName === '' || newNumber === '') {
+    if (newName.trim() === '' || newNumber.trim() === '') {
       alert('Both name and number have to be added')
       return
     }
-    if (contacts.some((contact) => contact.name === newName)) {
+    if (contacts.some((contact) => contact.name.toLowerCase() === newName.trim().toLowerCase())) {
       alert(`${newName} has already been added to phonebook`)
       setNewName('')
       return
