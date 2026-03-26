@@ -25,6 +25,7 @@ const App = () => {
     if (contacts.some((contact) => contact.name.toLowerCase() === newName.trim().toLowerCase())) {
       alert(`${newName} has already been added to phonebook`)
       setNewName('')
+      setNewNumber('')
       return
     }
     const contactObject = {
@@ -39,6 +40,16 @@ const App = () => {
         setNewNumber('')
       })
   }
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${ name }?`)) {
+      contactService
+        .deleteContact(id)
+        .then(() => {
+          setContacts(contacts.filter((contact) => contact.id !== id))
+        })
+      }
+    }
 
   return (
     <div>
@@ -60,7 +71,7 @@ const App = () => {
         filter by name: <input value={ searchCriteria } onChange={(event) => setSearchCriteria(event.target.value)} />
       </div>
       <h2>Contacts</h2>
-        <FilterContacts contacts={ contacts } criteria={ searchCriteria } />
+        <FilterContacts contacts={ contacts } criteria={ searchCriteria } handleDelete={ handleDelete } />
     </div>
   )
 }

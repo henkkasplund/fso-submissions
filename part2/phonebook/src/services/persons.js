@@ -11,4 +11,8 @@ const add = (newObject) => {
     return request.then((response) => response.data)
 }
 
-export default { getAll, add }
+const deleteContact = (id) => {
+    return axios.delete(`${baseUrl}/${id}`)
+}
+
+export default { getAll, add, deleteContact }
