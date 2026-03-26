@@ -10,7 +10,7 @@ const App = () => {
 
   useEffect(() => {
     contactService
-      .getAll()
+      .getInitialContacts()
       .then((initialContacts) => {
         setContacts(initialContacts)
       })
@@ -22,10 +22,13 @@ const App = () => {
       alert('Both name and number have to be added')
       return
     }
-    if (contacts.some((contact) => contact.name.toLowerCase() === newName.trim().toLowerCase())) {
-      alert(`${newName} has already been added to phonebook`)
-      setNewName('')
-      setNewNumber('')
+    const duplicateContact = contacts.find(
+      (contact) => contact.name.toLowerCase() === newName.trim().toLowerCase()
+    )
+    if (duplicateContact) {
+      window.confirm(`${newName} has already been added to phonebook, replace the old number with the new?`)
+        ? handleUpdate(duplicateContact)
+        : setNewName(''), setNewNumber('')
       return
     }
     const contactObject = {
@@ -33,7 +36,7 @@ const App = () => {
       number: newNumber,
     }
     contactService
-      .add(contactObject)
+      .addContact(contactObject)
       .then((returnedContact) => {
         setContacts(contacts.concat(returnedContact))
         setNewName('')
@@ -49,7 +52,19 @@ const App = () => {
           setContacts(contacts.filter((contact) => contact.id !== id))
         })
       }
-    }
+  }
+
+  const handleUpdate = (duplicateContact) => {
+    contactService
+      .updateContact(duplicateContact, newNumber)
+      .then((returnedContact) => {
+        setContacts(contacts.map((contact) => contact.id === duplicateContact.id
+          ? returnedContact
+          : contact))
+        setNewName('')
+        setNewNumber('')
+      })
+  }
 
   return (
     <div>
