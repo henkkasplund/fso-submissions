@@ -1,6 +1,10 @@
 import Country from './Country'
+import { useState } from 'react'
+
 
 const Countries = ({ countries, countrySearch }) => {
+  const [clickedCountry, setClickedCountry] = useState(null)
+
   if (countrySearch === '') {
     return (
       <div>
@@ -15,20 +19,26 @@ const Countries = ({ countries, countrySearch }) => {
       </div>
     )
   }
+
   if (countries.length > 1) {
     return (
       <div>
-        {countries.map((country) => <li key={ country.cca3 }>{ country.name.common }</li>)}
+        {countries.map((country) => 
+          <li key={ country.cca3 }>{ country.name.common }
+            <button onClick={() => setClickedCountry(country)}>Show</button>
+          </li>
+        )}
+        {clickedCountry && <Country country={ clickedCountry } />}
       </div>
     )
   }
+
   if (countries.length === 1) {
     return (
-      <div>
-        <Country country={ countries[0] } />
-      </div>
+      <Country country={countries[0]} />
     )
   }
+
   return (
     <div>
       No countries match your search.
