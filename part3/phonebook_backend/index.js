@@ -1,14 +1,10 @@
 const express = require('express')
-let persons = require('./persons')
+const { persons, addPerson, deletePerson } = require('./persons')
 const info = require('./info')
 
 const app = express()
 
 app.use(express.json())
-
-app.get('/', (request, response) => {
-  response.send('<h1>Phonebook</h1>')
-})
 
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
@@ -27,8 +23,23 @@ app.get('/api/info', (request, response) => {
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
   const person = persons.find((person) => person.id === id)
-  persons = persons.filter((person) => person.id !== id)
+  deletePerson(id)
   person ? response.status(204).end() : response.status(404).end()
+})
+
+app.post('/api/persons', (request, response) => {
+  const { name, number} = request.body
+  if (!name && !number) {
+    return response.status(400).json({ error: 'Neither name nor number given' })
+  }
+  if (!name) {
+    return response.status(400).json({ error: 'No name given'})
+  }
+  if (!number) {
+    return response.status(400).json({ error: 'No number given' }) 
+  }
+  const person = addPerson(name, number)
+  response.json(person)
 })
 
 const PORT = 3001
