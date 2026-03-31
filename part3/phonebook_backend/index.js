@@ -1,10 +1,12 @@
 const express = require('express')
+const morgan = require('morgan')
 const { persons, addPerson, deletePerson } = require('./persons')
 const info = require('./info')
 
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
