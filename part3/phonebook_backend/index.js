@@ -38,6 +38,9 @@ app.post('/api/persons', (request, response) => {
   if (!number) {
     return response.status(400).json({ error: 'No number given' }) 
   }
+  if (persons.some((person) => person.name === name)) {
+    return response.status(409).json({ error: `${ name } already exists in phonebook`})
+  }
   const person = addPerson(name, number)
   response.json(person)
 })
